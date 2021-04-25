@@ -62,8 +62,6 @@ function result(){
       liEle.textContent=imgeArr[i] + ' had '+ ProductImge.all[i].imgClikcs +' votes and had seen '+
     ProductImge.all[i].imgShown+' times';
     }
-  }else{
-    alert('You should choose 25 times');
   }
 }
 function remove(){
