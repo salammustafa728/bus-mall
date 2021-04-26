@@ -23,11 +23,13 @@ main{
    
 }
 .sec_img{
-    margin-left: auto;
+    margin-top: 20px;
+    margin-left: 110px;
    
 }
 button{
-    margin: 2opx;
+    margin-left: 20px;
+    margin-top: 20px;
     height: 30px;
     width: 100px;
     transition: 350ms;
