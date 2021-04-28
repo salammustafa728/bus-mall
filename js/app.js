@@ -11,7 +11,7 @@ const imgeThird = document.getElementById('thirdmgproduct');
 const resultSection = document.getElementById('sec_result');
 const btnResult = document.getElementById('btn_result');
 
-const getSec = document.getElementById('getSec');
+// const getSec = document.getElementById('getSec');
 
 let imgClikcsNum = 0;
 let imgeFristIndex = 0;
@@ -19,11 +19,11 @@ let imgeSecondIndex = 0;
 let imgeThirdIndex = 0;
 let attempsClick=25;
 
-function ProductImge(name){
+function ProductImge(name,img,imgClikcs=0,imgShown=0){
   this.name=name.split('.')[0];
-  this.img=`./img/${name}`;
-  this.imgClikcs = 0;
-  this.imgShown = 0;
+  this.img= img ? img :`./img/${name}`;
+  this.imgClikcs = imgClikcs;
+  this.imgShown = imgShown;
   ProductImge.all.push(this);
   ProductImge.data.push(this);
 
@@ -40,9 +40,7 @@ function dataSave(){
 }
 
 
-for(let i = 0; i<imgeArr.length;i++){
-  new ProductImge(imgeArr[i]);
-}
+
 // console.log(ProductImge.all);
 
 function clickImgHadler(e){
@@ -55,19 +53,19 @@ function clickImgHadler(e){
     }else if(e.target.id === 'thirdmgproduct'){
       ProductImge.all[imgeThirdIndex].imgClikcs++;
     }
-
+  
     if(imgClikcsNum===attempsClick){
       btnResult.removeEventListener('click',clickImgHadler);
     }
-
-    // console.log(ProductImge.all);
-
-    renderImgeProducr();
     imgClikcsNum++;
+    dataSave();
+    
+    // console.log(ProductImge.all);
+    renderImgeProducr();
   }else{
     chartImg();
   }
-
+  
   // dataSave();
   console.log(ProductImge.all);
   console.log(imgClikcsNum);
@@ -93,6 +91,7 @@ btnResult.addEventListener('click',result);
 
 
 function renderImgeProducr(){
+  console.log(ProductImge.all);
   let imgNum1;
   let imgNum2;
   let imgNum3;
@@ -119,19 +118,28 @@ function renderImgeProducr(){
   ProductImge.all[imgNum2].imgShown++;
   ProductImge.all[imgNum3].imgShown++;
   previosIndex=[imgeFristIndex,imgeSecondIndex,imgeThirdIndex];
-  dataSave();
+  // dataSave();
 
 }
 
 function getData(){
+  
   let dataImgs = JSON.parse(localStorage.getItem('imgs'));
   if(dataImgs){
+    // ProductImge.all=[];
     for( let i = 0; i < dataImgs.length; i++ ) {
-      ProductImge.all=dataImgs;
+      // dataImgs=`${ProductImge.all[i].imgClikcs} ${ProductImge.all[i].imgShown}`;
+      new ProductImge(dataImgs[i].name,dataImgs[i].img,dataImgs[i].imgClikcs,dataImgs[i].imgShown);
     }
-    renderImgeProducr();
+    // renderImgeProducr();
+  }
+  else{
+    for(let i = 0; i<imgeArr.length;i++){
+      new ProductImge(imgeArr[i]);
+    }
   }
 }
+getData();
 
 function chartImg(){
   let clicksVotes=[];
@@ -182,9 +190,6 @@ function randomImgNum(min, max) {
 
 imgeSection.addEventListener('click',clickImgHadler);
 renderImgeProducr();
-
-let funGetData = getData();
-funGetData;
 
 
 
